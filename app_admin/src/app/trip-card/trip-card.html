@@ -1,28 +1,27 @@
 <div class="card h-100">
-  <div class="card-header">{{ trip.name }}</div>
-
-  <img
-    class="card-img-top"
-    [src]="'assets/images/' + trip.image"
-    [alt]="trip.name"
-  />
+  <img [src]="'assets/images/' + trip.image"
+       class="card-img-top"
+       alt="{{ trip.name }}" />
 
   <div class="card-body">
-    <h6 class="card-subtitle mb-2 text-muted">{{ trip.resort }}</h6>
+    <h5 class="card-title">{{ trip.name }}</h5>
+    <p class="card-text">{{ trip.description }}</p>
 
-    <h6 class="card-subtitle mt-3 mb-3 text-muted">
-      {{ trip.length }} only
-      {{ trip.perPerson | currency:'USD':'symbol' }}
-      per person
-    </h6>
+    <ul class="list-unstyled mb-3">
+      <li><strong>Code:</strong> {{ trip.code }}</li>
+      <li><strong>Resort:</strong> {{ trip.resort }}</li>
+      <li><strong>Start:</strong> {{ trip.start }}</li>
+      <li><strong>Price:</strong> {{ trip.perPerson | currency }}</li>
+    </ul>
 
-    <p class="card-text" [innerHTML]="trip.description"></p>
+    <div *ngIf="isAdmin" class="d-flex justify-content-end gap-2">
+      <button class="btn btn-sm btn-primary" (click)="onEdit()">
+        Edit
+      </button>
 
-    <button
-      *ngIf="isLoggedIn()"
-      class="btn btn-primary btn-sm mt-2"
-      (click)="editTrip()">
-      Edit
-    </button>
+      <button class="btn btn-sm btn-danger" (click)="onDelete()">
+        Delete
+      </button>
+    </div>
   </div>
 </div>

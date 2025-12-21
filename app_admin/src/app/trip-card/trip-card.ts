@@ -1,9 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-
 import { Trip } from '../models/trip';
-import { AuthenticationService } from '../services/authentication';
 
 @Component({
   selector: 'app-trip-card',
@@ -13,20 +10,18 @@ import { AuthenticationService } from '../services/authentication';
   styleUrls: ['./trip-card.css']
 })
 export class TripCardComponent {
+
   @Input() trip!: Trip;
+  @Input() isAdmin = false;
 
-  constructor(
-    private router: Router,
-    private authenticationService: AuthenticationService
-  ) {}
+  @Output() edit = new EventEmitter<void>();
+  @Output() delete = new EventEmitter<void>();
 
-  isLoggedIn(): boolean {
-    return this.authenticationService.isLoggedIn();
+  onEdit(): void {
+    this.edit.emit();
   }
 
-  editTrip(): void {
-    // stash code for edit-trip component to retrieve
-    localStorage.setItem('tripCode', this.trip.code);
-    this.router.navigateByUrl('/edit-trip');
+  onDelete(): void {
+    this.delete.emit();
   }
 }

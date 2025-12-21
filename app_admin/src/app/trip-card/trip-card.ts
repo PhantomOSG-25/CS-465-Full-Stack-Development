@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+
 import { Trip } from '../models/trip';
+import { AuthenticationService } from '../services/authentication';
 
 @Component({
   selector: 'app-trip-card',
@@ -11,18 +13,20 @@ import { Trip } from '../models/trip';
   styleUrls: ['./trip-card.css']
 })
 export class TripCardComponent {
-  @Input() trip?: Trip;
+  @Input() trip!: Trip;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) {}
 
-  editTrip(): void {
-    if (!this.trip?.code) return;
-    localStorage.setItem('tripCode', this.trip.code);
-    this.router.navigateByUrl('/edit-trip');
+  isLoggedIn(): boolean {
+    return this.authenticationService.isLoggedIn();
   }
 
-  onImageError(event: Event): void {
-    const img = event.target as HTMLImageElement;
-    img.src = 'assets/images/reef1.jpg';
+  editTrip(): void {
+    // stash code for edit-trip component to retrieve
+    localStorage.setItem('tripCode', this.trip.code);
+    this.router.navigateByUrl('/edit-trip');
   }
 }

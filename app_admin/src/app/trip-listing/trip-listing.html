@@ -1,19 +1,13 @@
-<ng-container *ngIf="trips$ | async as trips; else loading">
-  <p>Trips length: {{ trips.length }}</p>
+<p>Trips length: {{ trips.length }}</p>
 
-  <div class="container">
-    <div class="mb-2">
-      <button (click)="addTrip()" class="btn btn-info">Add Trip</button>
-    </div>
+<div class="container">
+  <div class="mb-2" *ngIf="isLoggedIn()">
+    <button (click)="addTrip()" class="btn btn-info">Add Trip</button>
+  </div>
 
-    <div class="row">
-      <div *ngFor="let trip of trips" class="col-md-4 mt-2">
-        <app-trip-card [trip]="trip"></app-trip-card>
-      </div>
+  <div class="row">
+    <div *ngFor="let trip of trips" class="col-md-4 mt-2">
+      <app-trip-card [trip]="trip"></app-trip-card>
     </div>
   </div>
-</ng-container>
-
-<ng-template #loading>
-  <p>Trips length: 0</p>
-</ng-template>
+</div>

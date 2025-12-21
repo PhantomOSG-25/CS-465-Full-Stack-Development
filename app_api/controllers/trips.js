@@ -14,7 +14,7 @@ const tripsList = async (req, res) => {
 // GET: /api/trips/:tripCode
 const tripsFindByCode = async (req, res) => {
   try {
-    const trip = await Trip.findOne({ code: req.params.tripCode });
+    const trip = await Trip.findOne({ code: req.params.tripCode }).exec();
 
     if (!trip) {
       return res.status(404).json({ message: 'tripCode not found' });
@@ -29,7 +29,7 @@ const tripsFindByCode = async (req, res) => {
 // POST: /api/trips
 const tripsAddTrip = async (req, res) => {
   try {
-    const newTrip = new Trip({
+    const newTrip = await Trip.create({
       code: req.body.code,
       name: req.body.name,
       length: req.body.length,
@@ -40,8 +40,7 @@ const tripsAddTrip = async (req, res) => {
       description: req.body.description
     });
 
-    const q = await newTrip.save();
-    return res.status(201).json(q);
+    return res.status(201).json(newTrip);
   } catch (err) {
     return res.status(400).json(err);
   }
@@ -50,7 +49,7 @@ const tripsAddTrip = async (req, res) => {
 // PUT: /api/trips/:tripCode
 const tripsUpdateTrip = async (req, res) => {
   try {
-    const q = await Trip.findOneAndUpdate(
+    const updated = await Trip.findOneAndUpdate(
       { code: req.params.tripCode },
       {
         code: req.body.code,
@@ -65,11 +64,26 @@ const tripsUpdateTrip = async (req, res) => {
       { new: true, runValidators: true }
     ).exec();
 
-    if (!q) {
+    if (!updated) {
       return res.status(404).json({ message: 'tripCode not found' });
     }
 
-    return res.status(200).json(q);
+    return res.status(201).json(updated);
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
+
+// DELETE: /api/trips/:tripCode
+const tripsDeleteTrip = async (req, res) => {
+  try {
+    const deleted = await Trip.findOneAndDelete({ code: req.params.tripCode }).exec();
+
+    if (!deleted) {
+      return res.status(404).json({ message: 'tripCode not found' });
+    }
+
+    return res.status(204).json(null);
   } catch (err) {
     return res.status(400).json(err);
   }
@@ -79,5 +93,6 @@ module.exports = {
   tripsList,
   tripsFindByCode,
   tripsAddTrip,
-  tripsUpdateTrip
+  tripsUpdateTrip,
+  tripsDeleteTrip
 };

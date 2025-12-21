@@ -1,17 +1,17 @@
 import 'zone.js';
 
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
-import { provideZoneChangeDetection } from '@angular/core';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { App } from './app/app';
 import { routes } from './app/app.routes';
 
+import { authInterceptor } from './app/services/auth-interceptor';
+
 bootstrapApplication(App, {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(),
-    provideRouter(routes)
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([authInterceptor]))
   ]
 }).catch(err => console.error(err));

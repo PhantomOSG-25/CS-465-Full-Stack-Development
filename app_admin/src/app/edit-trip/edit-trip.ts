@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';  // ✅ removed RouterLink
+import { Router } from '@angular/router';
 
 import { TripDataService } from '../services/trip-data';
 import { Trip } from '../models/trip';
@@ -9,7 +9,7 @@ import { Trip } from '../models/trip';
 @Component({
   selector: 'app-edit-trip',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule], // ✅ removed RouterLink
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './edit-trip.html',
   styleUrls: ['./edit-trip.css']
 })
@@ -17,7 +17,7 @@ export class EditTripComponent implements OnInit {
   editForm!: FormGroup;
   submitted = false;
   message = '';
-  tripCode = '';
+  private tripCode = '';
 
   constructor(
     private fb: FormBuilder,
@@ -27,6 +27,7 @@ export class EditTripComponent implements OnInit {
 
   ngOnInit(): void {
     const code = localStorage.getItem('tripCode');
+
     if (!code) {
       alert("Couldn't find tripCode in localStorage.");
       this.router.navigateByUrl('/');
@@ -35,6 +36,7 @@ export class EditTripComponent implements OnInit {
 
     this.tripCode = code;
 
+    // Build the form first
     this.editForm = this.fb.group({
       _id: [],
       code: [code, Validators.required],
@@ -47,16 +49,20 @@ export class EditTripComponent implements OnInit {
       description: ['', Validators.required],
     });
 
+    // Load trip and patch into form
     this.tripDataService.getTrip(code).subscribe({
       next: (trip: Trip) => {
         this.message = `Trip ${code} retrieved`;
+
         this.editForm.patchValue({
           ...trip,
-          start: this.toDateInputValue(trip.start)
+          start: this.toDateInputValue(trip.start),
+          // ✅ strip <p> etc for textarea editing
+          description: this.stripHtml(trip.description)
         });
       },
       error: (err) => {
-        console.error(err);
+        console.error('Get trip error:', err);
         this.message = 'Trip not found / API error';
       }
     });
@@ -66,13 +72,23 @@ export class EditTripComponent implements OnInit {
     this.submitted = true;
     if (this.editForm.invalid) return;
 
-    this.tripDataService.updateTrip(this.tripCode, this.editForm.value).subscribe({
-      next: () => this.router.navigateByUrl('/'),
+    // re-wrap as <p> so the card [innerHTML] still looks good
+    const payload = {
+      ...this.editForm.value,
+      description: `<p>${this.editForm.value.description}</p>`
+    };
+
+    this.tripDataService.updateTrip(this.tripCode, payload).subscribe({
+      next: () => {
+        localStorage.removeItem('tripCode');
+        this.router.navigateByUrl('/');
+      },
       error: (err) => console.error('Update error:', err)
     });
   }
 
   onCancel(): void {
+    localStorage.removeItem('tripCode');
     this.router.navigateByUrl('/');
   }
 
@@ -83,5 +99,11 @@ export class EditTripComponent implements OnInit {
   private toDateInputValue(dateStr: string): string {
     if (!dateStr) return '';
     return new Date(dateStr).toISOString().slice(0, 10);
+  }
+
+  // helper: removes HTML tags like <p>...</p>
+  private stripHtml(html: string): string {
+    if (!html) return '';
+    return html.replace(/<[^>]*>/g, '').trim();
   }
 }

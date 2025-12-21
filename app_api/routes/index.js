@@ -1,20 +1,26 @@
 const express = require('express');
 const router = express.Router();
+
 const tripsController = require('../controllers/trips');
+const authController = require('../controllers/authentication');
+const auth = require('../config/jwt');
 
-router.use((req, res, next) => {
-  console.log('API ROUTER HIT:', req.method, req.originalUrl);
-  next();
-});
-
+// Trips (public read)
 router
   .route('/trips')
   .get(tripsController.tripsList)
-  .post(tripsController.tripsAddTrip);
+  .post(auth, tripsController.tripsAddTrip);
 
 router
   .route('/trips/:tripCode')
   .get(tripsController.tripsFindByCode)
-  .put(tripsController.tripsUpdateTrip);
+  .put(auth, tripsController.tripsUpdateTrip)
+  .delete(auth, tripsController.tripsDeleteTrip);
+
+// Auth
+router.post('/login', authController.login);
+
+// Optional (only if your guide wants it)
+router.post('/register', authController.register);
 
 module.exports = router;

@@ -65,6 +65,7 @@ process.on('SIGTERM', () => {
 
 // Import Mongoose schema
 require('./travlr');
+require('./users');
 
 // Actually start the connection
 connect();

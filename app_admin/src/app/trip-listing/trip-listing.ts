@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { catchError, shareReplay } from 'rxjs/operators';
 
 import { TripCardComponent } from '../trip-card/trip-card';
 import { TripDataService } from '../services/trip-data';
 import { Trip } from '../models/trip';
+import { AuthenticationService } from '../services/authentication';
 
 @Component({
   selector: 'app-trip-listing',
@@ -16,26 +15,36 @@ import { Trip } from '../models/trip';
   styleUrls: ['./trip-listing.css']
 })
 export class TripListingComponent implements OnInit {
-  trips$!: Observable<Trip[]>;
 
-  constructor(private tripDataService: TripDataService, private router: Router) {}
+  trips: Trip[] = [];
+
+  constructor(
+    private tripDataService: TripDataService,
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) {}
 
   ngOnInit(): void {
-    this.loadTrips();
+    this.getTrips();
   }
 
   addTrip(): void {
     this.router.navigateByUrl('/add-trip');
   }
 
-  // call this after returning home if needed
-  loadTrips(): void {
-    this.trips$ = this.tripDataService.getTrips().pipe(
-      catchError(err => {
-        console.error('Trips API error:', err);
-        return of([] as Trip[]);
-      }),
-      shareReplay(1)
-    );
+  isLoggedIn(): boolean {
+    return this.authenticationService.isLoggedIn();
+  }
+
+  private getTrips(): void {
+    this.tripDataService.getTrips().subscribe({
+      next: (data: Trip[]) => {
+        this.trips = data ?? [];
+      },
+      error: (err) => {
+        console.error('Error loading trips:', err);
+        this.trips = [];
+      }
+    });
   }
 }

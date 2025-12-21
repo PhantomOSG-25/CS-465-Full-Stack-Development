@@ -1,0 +1,74 @@
+<div *ngIf="trip" class="card mt-3">
+  <div class="card-header">
+    Edit Trip
+  </div>
+
+  <div class="card-body">
+
+    <!-- Status -->
+    <div *ngIf="errorMessage" class="alert alert-danger py-2">
+      {{ errorMessage }}
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-2">
+        <label class="form-label">Name</label>
+        <input class="form-control" [(ngModel)]="trip.name" />
+      </div>
+
+      <div class="col-md-6 mb-2">
+        <label class="form-label">Code</label>
+        <input class="form-control" [(ngModel)]="trip.code" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-2">
+        <label class="form-label">Length</label>
+        <input class="form-control" [(ngModel)]="trip.length" />
+      </div>
+
+      <div class="col-md-6 mb-2">
+        <label class="form-label">Start (date)</label>
+        <input class="form-control" type="date" [(ngModel)]="trip.start" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-2">
+        <label class="form-label">Resort</label>
+        <input class="form-control" [(ngModel)]="trip.resort" />
+      </div>
+
+      <div class="col-md-6 mb-2">
+        <label class="form-label">Per Person</label>
+        <input class="form-control" [(ngModel)]="trip.perPerson" />
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label">Image Filename</label>
+      <input class="form-control" [(ngModel)]="trip.image" />
+      <div class="form-text">
+        Example: reef1.jpg (must exist in <code>src/assets/images</code>)
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Description</label>
+      <textarea class="form-control" rows="4" [(ngModel)]="trip.description"></textarea>
+    </div>
+
+    <button class="btn btn-success me-2"
+            [disabled]="saving"
+            (click)="saveTrip()">
+      {{ saving ? 'Saving...' : 'Save' }}
+    </button>
+
+    <button class="btn btn-danger"
+            [disabled]="deleting"
+            (click)="deleteTrip()">
+      {{ deleting ? 'Deleting...' : 'Delete' }}
+    </button>
+  </div>
+</div>

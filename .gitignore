@@ -61,7 +61,7 @@ typings/
 .next
 
 # Filter out VScode Working Files
-.vscode/
+.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json

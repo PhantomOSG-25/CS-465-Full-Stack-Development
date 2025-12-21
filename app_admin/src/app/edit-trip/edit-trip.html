@@ -1,0 +1,88 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+
+      <h2 class="text-center mb-3">Edit Trip</h2>
+
+      <form *ngIf="editForm" [formGroup]="editForm" (ngSubmit)="onSubmit()">
+
+        <div class="mb-3">
+          <label class="form-label">Code</label>
+          <input type="text" formControlName="code" class="form-control" readonly />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input type="text" formControlName="name" class="form-control"
+                 [ngClass]="{ 'is-invalid': submitted && f['name'].errors }" />
+          <div class="invalid-feedback" *ngIf="submitted && f['name'].errors">
+            Name is required
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Length</label>
+          <input type="text" formControlName="length" class="form-control"
+                 [ngClass]="{ 'is-invalid': submitted && f['length'].errors }" />
+          <div class="invalid-feedback" *ngIf="submitted && f['length'].errors">
+            Length is required
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Start Date</label>
+          <input type="date" formControlName="start" class="form-control"
+                 [ngClass]="{ 'is-invalid': submitted && f['start'].errors }" />
+          <div class="invalid-feedback" *ngIf="submitted && f['start'].errors">
+            Start date is required
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Resort</label>
+          <input type="text" formControlName="resort" class="form-control"
+                 [ngClass]="{ 'is-invalid': submitted && f['resort'].errors }" />
+          <div class="invalid-feedback" *ngIf="submitted && f['resort'].errors">
+            Resort is required
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Price Per Person</label>
+          <input type="text" formControlName="perPerson" class="form-control"
+                 [ngClass]="{ 'is-invalid': submitted && f['perPerson'].errors }" />
+          <div class="invalid-feedback" *ngIf="submitted && f['perPerson'].errors">
+            Price is required
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Image Filename</label>
+          <input type="text" formControlName="image" class="form-control"
+                 placeholder="reef1.jpg"
+                 [ngClass]="{ 'is-invalid': submitted && f['image'].errors }" />
+          <div class="invalid-feedback" *ngIf="submitted && f['image'].errors">
+            Image name is required
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <textarea rows="4" formControlName="description" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f['description'].errors }"></textarea>
+          <div class="invalid-feedback" *ngIf="submitted && f['description'].errors">
+            Description is required
+          </div>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-success flex-fill">Save</button>
+          <button type="button" class="btn btn-secondary flex-fill" (click)="onCancel()">Cancel</button>
+        </div>
+
+        <div class="mt-3 text-muted small" *ngIf="message">{{ message }}</div>
+      </form>
+
+    </div>
+  </div>
+</div>

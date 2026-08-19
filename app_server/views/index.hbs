@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore curated reef escapes with Travlr Getaways.">
+  <title>{{title}}</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  {{> header}}
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__overlay"></div>
+      <div class="shell hero__content">
+        <p class="eyebrow">Curated island escapes</p>
+        <h1 id="hero-title">The water is calling.</h1>
+        <p class="hero__lede">Discover considered reef retreats built around clear water, quiet coastlines, and time well spent.</p>
+        <a class="button button--primary" href="/travel">Explore destinations</a>
+      </div>
+    </section>
+
+    <section class="section shell" aria-labelledby="why-title">
+      <div class="section-heading">
+        <p class="eyebrow">Designed for the journey</p>
+        <h2 id="why-title">Simple planning. Remarkable places.</h2>
+        <p>Travlr brings destination details, transparent pricing, and carefully selected stays into one focused experience.</p>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <span class="feature-card__number">01</span>
+          <h3>Reef-first escapes</h3>
+          <p>Every itinerary begins with extraordinary water and a strong sense of place.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-card__number">02</span>
+          <h3>Clear trip details</h3>
+          <p>Dates, duration, resort, and per-person pricing are easy to compare.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-card__number">03</span>
+          <h3>Curated collection</h3>
+          <p>A concise selection keeps the experience useful instead of overwhelming.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--tint">
+      <div class="shell callout">
+        <div>
+          <p class="eyebrow">Ready when you are</p>
+          <h2>Find your next horizon.</h2>
+        </div>
+        <a class="button button--dark" href="/travel">View all trips</a>
+      </div>
+    </section>
+  </main>
+
+  {{> footer}}
+</body>
+</html>

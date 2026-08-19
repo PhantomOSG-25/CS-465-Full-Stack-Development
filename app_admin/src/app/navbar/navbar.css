@@ -1,0 +1,40 @@
+.navbar {
+  min-height: 76px;
+  border-bottom: 1px solid rgba(16, 42, 43, 0.12);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+}
+
+.navbar-brand {
+  color: #102a2b;
+  font-size: 1rem;
+}
+
+.brand-mark {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 50% 50% 50% 10px;
+  background: #0d6b6c;
+  color: white;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.1rem;
+}
+
+.nav-link {
+  color: #607172;
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #0d6b6c;
+}
+
+.session-link {
+  padding: 8px 14px;
+  border: 1px solid rgba(16, 42, 43, 0.15);
+  border-radius: 999px;
+}

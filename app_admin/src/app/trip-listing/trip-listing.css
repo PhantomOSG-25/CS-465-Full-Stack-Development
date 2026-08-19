@@ -1,0 +1,9 @@
+.listing-header {
+  padding-bottom: 22px;
+  border-bottom: 1px solid rgba(16, 42, 43, 0.12);
+}
+
+.listing-header h1 {
+  color: #102a2b;
+  font-weight: 650;
+}

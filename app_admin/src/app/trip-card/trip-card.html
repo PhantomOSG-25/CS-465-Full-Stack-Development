@@ -1,0 +1,28 @@
+<article class="card trip-card h-100 border-0">
+  <img [src]="'assets/images/' + trip.image"
+       class="card-img-top"
+       alt="{{ trip.name }}" />
+
+  <div class="card-body d-flex flex-column p-4">
+    <p class="trip-resort mb-2">{{ trip.resort }}</p>
+    <h2 class="card-title h3">{{ trip.name }}</h2>
+    <p class="card-text text-secondary">{{ trip.description }}</p>
+
+    <ul class="trip-details list-unstyled mb-4 mt-auto pt-3">
+      <li><strong>Code:</strong> {{ trip.code }}</li>
+      <li><strong>Duration:</strong> {{ trip.length }}</li>
+      <li><strong>Start:</strong> {{ trip.start | date:'MMM d, y':'UTC' }}</li>
+      <li><strong>Price:</strong> {{ trip.perPerson | currency }}</li>
+    </ul>
+
+    <div *ngIf="isAdmin" class="d-flex gap-2">
+      <button class="btn btn-sm btn-outline-primary rounded-pill px-3" (click)="onEdit()">
+        Edit
+      </button>
+
+      <button class="btn btn-sm btn-outline-danger rounded-pill px-3" (click)="onDelete()">
+        Delete
+      </button>
+    </div>
+  </div>
+</article>

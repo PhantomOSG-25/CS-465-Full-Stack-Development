@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand px-3 px-lg-4">
+  <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/" aria-label="Travlr Getaways admin home">
+    <span class="brand-mark" aria-hidden="true">T</span>
+    <span>Travlr <strong>Admin</strong></span>
+  </a>
+
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav me-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/" routerLinkActive="active">Trips</a>
+      </li>
+    </ul>
+
+    <div class="d-flex gap-3 align-items-center">
+      <a class="nav-link session-link" routerLink="/login" *ngIf="!isLoggedIn()">Log in</a>
+      <a class="nav-link session-link" href="#" (click)="onLogout()" *ngIf="isLoggedIn()">Log out</a>
+    </div>
+  </div>
+</nav>
